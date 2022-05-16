@@ -8,7 +8,7 @@ from datetime import datetime
 oci_bucket_name = 'gcp_migration'
 gcp_bucket_name = 'oci-migration-2022'
 download_dir = r'D:\Test'
-gcs_service_account_credentials = r'D:\Career\Playground\GCP\triple-shift-350411-00d4b5da88b4.json'
+gcs_service_account_credentials = r''
 
 
 def upload_to_gcp_from_directory(directory_path: str, dest_bucket_name: str):
