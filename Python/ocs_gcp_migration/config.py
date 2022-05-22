@@ -1,0 +1,5 @@
+oci_bucket_name = 'gcp_migration'
+gcp_bucket_name = 'oci-migration-2022'
+download_dir = f'D:{chr(92)}{oci_bucket_name}'
+gcs_service_account_credentials = r'D:\Career\Playground\GCP\triple-shift-350411-72c624b2f9b9.json'
+log_file = r'D:\Migration\migration.log'
