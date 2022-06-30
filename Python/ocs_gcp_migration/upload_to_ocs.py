@@ -14,6 +14,7 @@ get_multipart_url = requests.put(url, headers=headers)
 response = get_multipart_url.json()
 
 # putting object in multipart URL
+# logic for multipart should be added
 requests.put(url=base_url+response['accessUri']+'1', data=data)
 
 # commiting multi part upload
