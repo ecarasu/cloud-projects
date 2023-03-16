@@ -6,25 +6,23 @@ import urllib.parse
 from datetime import datetime
 
 
-def writeToAuditFile(fileName: str, content: dict, header: list, isHeader: bool):
-    if isHeader:
-        with open(fileName, 'w', newline='', encoding='utf-8') as auditFile:
-            csv_writer = csv.writer(auditFile)
-            csv_writer.writerow(header)
-    else:
-        with open(fileName, 'a', newline='', encoding='utf-8') as auditFile:
-            csv_writer = csv.DictWriter(auditFile, fieldnames=header)
-            csv_writer.writerow(content)
+def writeToAuditFile(filename: str, content: dict, header: list, isHeader: bool):
+    mode = 'w' if isHeader else 'a'
+    with open(filename, mode, newline='', encoding='utf-8') as auditFile:
+        csv_writer = csv.DictWriter(auditFile, fieldnames=header)
+        if isHeader:
+            csv_writer.writeheader()
+        else:
+           csv_writer.writerow(content)
 
 
-def make_directory(directory_list, src_directory):
+def makeDirectory(directory_list, src_directory):
+    if not os.path.exists(src_directory):
+        os.makedirs(src_directory)
     for directory in directory_list:
-        destination_dir = src_directory.format(directory.split('/')[-1])
-        isExist = os.path.exists(os.path.dirname(
-            destination_dir+chr(92)+directory.replace('/', chr(92))))
-        if not isExist:
-            os.makedirs(os.path.dirname(destination_dir +
-                        chr(92)+directory.replace('/', chr(92))))
+        destination_dir = os.path.join(src_directory, os.path.basename(directory))
+        directory_path = os.path.join(destination_dir, directory.replace('/', os.sep))
+        os.makedirs(directory_path, exist_ok=True)
 
 
 def create_audit_file(ocs_pre_auth_url: str, audit_file_name: str):
