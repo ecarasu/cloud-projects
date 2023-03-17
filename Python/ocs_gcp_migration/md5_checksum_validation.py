@@ -1,10 +1,11 @@
 import hashlib
 import base64
+import mmap
 
 
-def md5_checksum_validation(filename: str, md5_value: str, chunk_size: int):
-    hash_file = hashlib.md5()
+def getMd5(filename: str):
     with open(filename, 'rb') as file_to_check:
-        for chunk in iter(lambda: file_to_check.read(chunk_size), b''):
-            hash_file.update(chunk)
-        return (base64.b64encode(hash_file.digest()).decode() == md5_value)
+        with mmap.mmap(file_to_check.fileno(), 0, access=mmap.ACCESS_READ) as mmapped_file:
+            md5_hash = hashlib.md5(mmapped_file).digest()
+            md5_base64 = base64.b64decode(md5_hash).decode()
+            return md5_base64
